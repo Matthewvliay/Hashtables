@@ -1,0 +1,56 @@
+// You will need to provide explanations for how your hash functions work, how they compare with each other, and what hash functions work the best for the general and specific case.
+
+hashOne:
+This hash function loops over each character in the key and adds it's char value to the hash.
+It also uses circular arithmetic so the hash will never be greater than or equal to arr.length
+
+
+hashTwo:
+First, this hash function makes a char type array of key and assigns len to the length of key. We also declare an offset variable to 5.
+We use modulus arithmetics again to avoid being greater than arr.length.
+In the for loop of len time, we create the hash by adding itself and multiplying 31 times the hash plus the offset mod len as the index of the array. We use 31 because it is a large prime number that gives the best unique results with a decreased likelihood of common factors.
+For some chars, their values are negative because they range from -128 to 127 so we use if and else statements at the end to make sure they are within bounds.
+
+hashThree:
+This hash function handles two cases: the first case is if the length of the key is 1. In this case, we use the char value of the first letter in the string and assign it to the hash if the length is 1 and circular arithmetic to make sure the hash is not equal to or greater than arr.length.
+The second case is if the length of the key is greater than or equal to 1. In this case, we use a prime number, 11, so that the hash will be more evenly distrbiuted. Then, 11 is multiplied by the first character value and last character value of the string. We also use circular arithmetic in the same way as for the first case.
+
+specificHash:
+This hash function initializes hash at an integer value of 101 and handles two cases: the first case is if the length of the key is 1. In this case, we use 1 + the char value of the first letter in the string and assign it to the hash if the length is 1 and circular arithmetic to make sure the hash is not equal to or greater than arr.length.
+In the second case, the hash function loops over each character in the key and adds it to the hash. Then at the end, it returns the sum of the length of the key, the hash, and the char value of the last character in the key. We also use circular arithmetic to make sure the hash is not equal to or greater than arr.length
+
+
+//	Demonstrate the effect of different hash functions and table length.
+//	Does even, odd or prime number table lengths make a difference with the same hash function?
+//	Include good comments within your code.
+
+Comparisons:
+
+* hashOne, hashTwo, hashThree are implemented with a table length of 100, whereas specificHash is implemented with a table length of 207.
+specificHash  
+	-larger table lengths lead to lesser collisions (mostly) and they generally use more space. We don't want to overestimate the amount of keys.
+* Even though the implementations of hashOne, hashTwo, hashThree, and specific hash are vastly different, their results for keywords.txt are relatively similar.
+* odd number table lengths are better than even number table lengths.
+* prime number table lengths are optimal for hashtables
+
+For gettysburg.txt (general case):
+specificHash performs the best with 1 average collisions and a max collision length of 4.
+	- specificHash also performs extremely well on general hash tables. 
+	- The larger table length 227 makes it so that it distributes keys more evenly than a table length of 100.
+hashTwo performs the secondbest with 2 average collision and a max collision length of 5. 
+	- In hashTwo, we incorporated multiplying the hash with the number 31 because it is a large prime number that gives the best unique results with a decreased likelihood of common factors.
+hashOne performs the third best with 2 average collisions and a max collision length of 6.
+	- In hashOne, we do not incorporate the multiplication of a prime number. We only add the char values in each key to the hash.
+hashThree performs the fourth best with 2 average collisions and a max collision length of 8. 
+	- We multiplied use a prime number, 11, so that the hash will be more evenly distrbiuted. Then, 11 is multiplied by the first character value and last character value of the string.
+	-	However, it is not as good as the first three hash functions because the first and last letter of a word occur several times.
+
+For keywords.txt (specific case): 
+specificHash performs the best with 1 average collision and a max collision length of 2.
+	- The larger table length 227 makes it so that it distributes keys more evenly than a table length of 100.
+hashOne performs the second best with 1 collision and a max collision length of 3.
+	-hashOne seems to perform better than hashTwo and hashThree because there are a smaller number of keys in keywords.txt
+hashTwo performs the third best with 1 average colision and a max collision length of 4.
+	-Since hashTwo relies its variability on the number of characters in the string for offset, it doesn't perform as the two hash functions above.
+hashThree performs the fourth best with 1 average collision and a max collision length of 5.
+	- hashThree doesn't perform as well because the first and last characters of the strings are often repeated in a small sample size.
